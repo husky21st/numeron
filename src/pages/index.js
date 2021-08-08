@@ -3,11 +3,9 @@ import Head from "next/head";
 
 function Header() {
 	return (
-	  <header className="bg-gray-800 w-screen h-14">
-		<div className="text-center">
-		  <div className="text-white p-3">
-		  	<span style={{fontFeatureSettings : "'zero'  1", fontFamily : "sans-serif"}}>Numer0n</span>
-		  </div>
+	  <header className="bg-gray-800 w-screen">
+		<div className="text-center text-white p-4">
+			<span style={{fontFeatureSettings : "'zero'  1", fontFamily : "sans-serif"}}>Numer0n</span>
 		</div>
 	  </header>
 	);
@@ -92,7 +90,7 @@ function InputArea(props){
 	return(
 		<div>
 			<form className='align-center' onSubmit={handleSubmit}>
-				<div className='ring rounded text-5xl'>
+				<div className='ring rounded md:text-5xl text-3xl'>
 					<select name='first' defaultValue='0'>
 						<option value='0'>0</option>
 						<option value='1'>1</option>
@@ -145,12 +143,12 @@ export default function Home() {
 	const [AnswerNumber] = useState(setnumber);
 	console.log(submitNumber);
   return (
-    <div>
+    <div className='h-screen flex flex-col'>
       <Head>
         <title>Numeron</title>
       </Head>
 		<Header />
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+      <main className="flex flex-col items-center w-full flex-1 px-20 text-center">
 		  <div className='pt-3'>Input Your Answer</div>
 		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber} /></div>
 		  <div>{
@@ -162,6 +160,11 @@ export default function Home() {
 				<div><Clear /></div>
 			}
 	  </main>
+	  <footer className="w-full flex justify-center items-center h-12 border-t">
+          <p className="flex item-center">
+              CopyRight © 2021, husky All Right Reserved.
+          </p>
+        </footer>
     </div>
   );
 }
