@@ -27,7 +27,7 @@ function setnumber(){
 			AnswerNumber.push(n);
 		}
 	}
-	console.log(AnswerNumber);
+	//console.log(AnswerNumber);
 	return AnswerNumber;
 }
 
@@ -57,24 +57,30 @@ function CheckNumber(props){
 	}
 	console.log('eat',eat,'bite',bite);
 	return (
-		<div className='flex rounded gap-4 border-green-500 border-4 p-4'>
-			<div>
-				<div className='font-bold text-3xl'>
-					EAT
-				</div>
-				<div className='font-bold text-2xl'>
-					{eat}
-				</div>
+		<div>
+			<div className='text-xl'>
+				Answer Count : {props.count}
 			</div>
-			<div>
-				<div className='font-bold text-3xl'>
-					BITE
+			<div className='flex rounded gap-4 border-green-500 border-4 p-4'>
+				<div>
+					<div className='font-bold text-3xl'>
+						EAT
+					</div>
+					<div className='font-bold text-2xl'>
+						{eat}
+					</div>
 				</div>
-				<div className='font-bold text-2xl'>
-					{bite}
+				<div>
+					<div className='font-bold text-3xl'>
+						BITE
+					</div>
+					<div className='font-bold text-2xl'>
+						{bite}
+					</div>
 				</div>
 			</div>
 		</div>
+
 	);
 }
 
@@ -86,10 +92,11 @@ function InputArea(props){
 		const number = event.target.elements;
 		if(number.first.value === number.second.value ||
 			number.first.value === number.third.value ||
-			number.second.value === number.third){
+			number.second.value === number.third.value){
 			window.alert("Don't use same number");
 		}else{
 			props.submit([number.first.value, number.second.value, number.third.value]);
+			props.check(props.submitCount + 1);
 		}
 		//console.log(props.Answer);
 		//setNumbers(submitNumber);
@@ -146,9 +153,10 @@ function InputArea(props){
 }
 
 export default function Home() {
+	const [submitCount, check] = useState(0);
 	const [submitNumber, submit] = useState(undefined);
 	const [AnswerNumber] = useState(setnumber);
-	//console.log(submitNumber);
+	console.log(submitCount);
   return (
     <div className='h-screen flex flex-col'>
       <Head>
@@ -156,11 +164,12 @@ export default function Home() {
       </Head>
 		<Header />
       <main className="flex flex-col items-center w-full flex-1 px-20 text-center">
-		  <div className='pt-3'>Input Your Answer</div>
-		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber} /></div>
+		  <div className='pt-5'>Input Your Answer</div>
+		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber}
+		  check={check} submitCount={submitCount} /></div>
 		  <div>{
 				submitNumber &&
-				<CheckNumber submit={submitNumber} answer={AnswerNumber} />
+				<CheckNumber submit={submitNumber} answer={AnswerNumber} count={submitCount} />
 			}</div>
 			{
 				submitNumber?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
