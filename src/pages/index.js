@@ -1,3 +1,4 @@
+"use strict";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 
@@ -5,7 +6,7 @@ function Header() {
 	return (
 	  <header className="bg-gray-800 w-screen">
 		<div className="text-center text-white p-4">
-			<span style={{fontFeatureSettings : "'zero'  1", fontFamily : "sans-serif"}}>Numer0n</span>
+			<span style={{fontFamily : "'Fira Sans', sans-serif", fontVariant : "slashed-zero"}}>Numer0n</span>
 		</div>
 	  </header>
 	);
@@ -41,8 +42,8 @@ function Clear(){
 }
 
 function CheckNumber(props){
-	console.log(props.submit);
-	console.log(props.answer);
+	//console.log(props.submit);
+	//console.log(props.answer);
 	let eat = 0;
 	let bite = 0;
 	for (let i = 0; i < 3; i++) {
@@ -79,12 +80,18 @@ function CheckNumber(props){
 
 function InputArea(props){
 	
-	console.log(props.submitNumber);
+	//console.log(props.submitNumber);
 	function handleSubmit(event){
 		event.preventDefault();
 		const number = event.target.elements;
-		props.submit([number.first.value, number.second.value, number.third.value]);
-		console.log(props.Answer);
+		if(number.first.value === number.second.value ||
+			number.first.value === number.third.value ||
+			number.second.value === number.third){
+			window.alert("Don't use same number");
+		}else{
+			props.submit([number.first.value, number.second.value, number.third.value]);
+		}
+		//console.log(props.Answer);
 		//setNumbers(submitNumber);
 	}
 	return(
@@ -141,7 +148,7 @@ function InputArea(props){
 export default function Home() {
 	const [submitNumber, submit] = useState(undefined);
 	const [AnswerNumber] = useState(setnumber);
-	console.log(submitNumber);
+	//console.log(submitNumber);
   return (
     <div className='h-screen flex flex-col'>
       <Head>
