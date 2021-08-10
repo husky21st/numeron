@@ -6,7 +6,7 @@ function Header() {
 	return (
 	  <header className="bg-gray-800 w-screen">
 		<div className="text-center text-white p-4">
-			<span style={{fontFamily : "'Fira Sans', sans-serif", fontVariant : "slashed-zero"}}>Numer0n</span>
+			<span style={{fontFamily : "'Inter', sans-serif", fontVariant : "slashed-zero"}}>Numer0̸n</span>
 		</div>
 	  </header>
 	);
@@ -37,7 +37,9 @@ function History(){
 
 function Clear(){
 	return(
-		<p className='text-red-500 text-8xl'>Clear!</p>
+		<div className='h-screen w-screen bg-gray-100 bg-opacity-80'>
+			<p className='h-screen text-red-500 text-8xl flex justify-center items-center'>Clear!</p>
+		</div>
 	);
 }
 
@@ -57,8 +59,8 @@ function CheckNumber(props){
 	}
 	console.log('eat',eat,'bite',bite);
 	return (
-		<div>
-			<div className='text-xl'>
+		<div className='flex flex-col items-center'>
+			<div className='text-xl '>
 				Answer Count : {props.count}
 			</div>
 			<div className='flex rounded gap-4 border-green-500 border-4 p-4'>
@@ -103,8 +105,8 @@ function InputArea(props){
 	}
 	return(
 		<div>
-			<form className='align-center' onSubmit={handleSubmit}>
-				<div className='ring rounded md:text-5xl text-3xl'>
+			<form className='flex flex-col items-center align-center' onSubmit={handleSubmit}>
+				<div className='ring rounded md:text-5xl text-3xl '>
 					<select name='first' defaultValue='0'>
 						<option value='0'>0</option>
 						<option value='1'>1</option>
@@ -154,30 +156,33 @@ function InputArea(props){
 
 export default function Home() {
 	const [submitCount, check] = useState(0);
-	const [submitNumber, submit] = useState(undefined);
+	const [submitNumber, submit] = useState([]);
 	const [AnswerNumber] = useState(setnumber);
-	console.log(submitCount);
+	console.log(AnswerNumber);
   return (
     <div className='h-screen flex flex-col'>
       <Head>
         <title>Numeron</title>
       </Head>
 		<Header />
-      <main className="flex flex-col items-center w-full flex-1 px-20 text-center">
+      <main className="flex flex-col flex-1 text-center font-reggae">
 		  <div className='pt-5'>Input Your Answer</div>
 		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber}
 		  check={check} submitCount={submitCount} /></div>
-		  <div>{
-				submitNumber &&
-				<CheckNumber submit={submitNumber} answer={AnswerNumber} count={submitCount} />
-			}</div>
-			{
-				submitNumber?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
-				<div><Clear /></div>
+		  {
+				submitCount > 0 &&
+				<div><CheckNumber submit={submitNumber} answer={AnswerNumber} count={submitCount} /></div>
 			}
+			{
+				submitCount > 0 && submitNumber?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
+				<div className='absolute z-50'><Clear /></div>
+			}
+			<div className='absolute'>
+				<div className="w-24 h-24 ml-4 mt-4 bg-gray-400 flex justify-center items-center">z-40</div>
+			</div>
 	  </main>
 	  <footer className="w-full flex justify-center items-center h-12 border-t">
-          <p className="flex item-center">
+          <p className="">
               CopyRight © 2021, husky All Right Reserved.
           </p>
         </footer>
