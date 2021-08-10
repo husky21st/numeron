@@ -27,12 +27,34 @@ function setnumber(){
 			AnswerNumber.push(n);
 		}
 	}
-	//console.log(AnswerNumber);
+	console.log(AnswerNumber);
 	return AnswerNumber;
 }
 
-function History(){
-	//const [numbers, setNumbers] = useState(null);
+function History(props){
+	return(
+		<div>
+			<div className='flex flex-col items-center pt-5'>
+				{
+					props.number.map((n) =>
+					{
+						return(
+						<div key={props.number.indexOf(n)} className='flex rounded border-4 p-4'>
+							<span className='text-3xl'>#{props.number.length - props.number.indexOf(n)}</span>
+							<span className='pt-2 px-5'>number is</span>
+							<span className='text-3xl'>{n[0]}{n[1]}{n[2]} : </span>
+							<span className='text-3xl px-2'>{n[3]}</span>
+							<span className='pt-1 text-xl'>eat</span>
+							<span className='text-3xl px-2'>{n[4]}</span>
+							<span className='pt-1 text-xl'>bite</span>
+						</div>
+						);
+					})
+				}
+
+			</div>
+		</div>
+	)
 }
 
 function Clear(props){
@@ -61,13 +83,15 @@ function CheckNumber(props){
 	let bite = 0;
 	for (let i = 0; i < 3; i++) {
 		for (let j = 0; j < 3; j++) {
-			if(props.submit[i] == props.answer[j]){
+			if(props.submit[0][i] == props.answer[j]){
 				if(i == j){eat++;}
 				else {bite++;}
 				continue;
 			}
 		}
 	}
+	let baff = props.submit;
+	baff[0].push(eat,bite);
 	console.log('eat',eat,'bite',bite);
 	return (
 		<div className='flex flex-col items-center'>
@@ -114,7 +138,10 @@ function InputArea(props){
 			number.second.value === number.third.value){
 			window.alert("Don't use same number");
 		}else{
-			props.submit([number.first.value, number.second.value, number.third.value]);
+			let baff = props.submitNumber;
+			baff.unshift([number.first.value, number.second.value, number.third.value])
+			console.log('1',baff);
+			props.submit(baff);
 			props.check(props.submitCount + 1);
 		}
 		//console.log(props.Answer);
@@ -168,7 +195,7 @@ export default function Home() {
 	const [submitCount, check] = useState(0);
 	const [submitNumber, submit] = useState([]);
 	const [AnswerNumber, restart] = useState(setnumber);
-	console.log(AnswerNumber);
+	console.log('submit', submitNumber);
   return (
     <div className='h-screen flex flex-col'>
       <Head>
@@ -184,8 +211,12 @@ export default function Home() {
 				<div><CheckNumber submit={submitNumber} answer={AnswerNumber} count={submitCount} /></div>
 			}
 			{
-				submitCount > 0 && submitNumber?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
+				submitCount > 0 && submitNumber[0]?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
 				<div className='absolute z-50 ' ><Clear check={check} submit={submit} restart={restart} /></div>
+			}
+			{
+				submitCount > 0 &&
+				<div><History number={submitNumber} /></div>
 			}
 	  </main>
 	  <footer className="w-full flex justify-center items-center h-12 border-t">
