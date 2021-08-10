@@ -177,9 +177,6 @@ export default function Home() {
 				submitCount > 0 && submitNumber?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
 				<div className='absolute z-50'><Clear /></div>
 			}
-			<div className='absolute'>
-				<div className="w-24 h-24 ml-4 mt-4 bg-gray-400 flex justify-center items-center">z-40</div>
-			</div>
 	  </main>
 	  <footer className="w-full flex justify-center items-center h-12 border-t">
           <p className="">
