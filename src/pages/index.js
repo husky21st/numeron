@@ -37,7 +37,7 @@ function History(){
 
 function Clear(){
 	return(
-		<div className='h-screen w-screen bg-gray-100 bg-opacity-80'>
+		<div className='h-screen w-screen bg-gray-100 bg-opacity-80 fade'>
 			<p className='h-screen text-red-500 text-8xl flex justify-center items-center'>Clear!</p>
 		</div>
 	);
@@ -165,7 +165,7 @@ export default function Home() {
         <title>Numeron</title>
       </Head>
 		<Header />
-      <main className="flex flex-col flex-1 text-center font-reggae">
+      <main className="flex flex-col flex-1 text-center font-reggae ">
 		  <div className='pt-5'>Input Your Answer</div>
 		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber}
 		  check={check} submitCount={submitCount} /></div>
@@ -175,7 +175,7 @@ export default function Home() {
 			}
 			{
 				submitCount > 0 && submitNumber?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
-				<div className='absolute z-50'><Clear /></div>
+				<div className='absolute z-50 ' ><Clear /></div>
 			}
 	  </main>
 	  <footer className="w-full flex justify-center items-center h-12 border-t">
