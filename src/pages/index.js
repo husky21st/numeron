@@ -102,13 +102,12 @@ function InputArea(props){
 	const [init, change] = useState(false);
 	useEffect(() => {
 		change(true);
-	},[props.submitNumber]);
+	},[props.ans]);
 	function choice() {
 		change(false);
 	}
 	function handleSubmit(event){
 		event.preventDefault();
-		change(true);
 		const number = event.target.elements;
 		if(number.first.value === number.second.value ||
 			number.first.value === number.third.value ||
@@ -179,7 +178,7 @@ export default function Home() {
       <main className="flex flex-col flex-1 text-center font-reggae ">
 		  <div className='pt-5'>Input Your Answer</div>
 		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber}
-		  check={check} submitCount={submitCount}/></div>
+		  check={check} submitCount={submitCount} ans={AnswerNumber}/></div>
 		  {
 				submitCount > 0 &&
 				<div><CheckNumber submit={submitNumber} answer={AnswerNumber} count={submitCount} /></div>
