@@ -4,11 +4,79 @@ import Head from "next/head";
 
 function Header() {
 	return (
-	  <header className="bg-gray-800 w-screen">
-		<div className="text-center text-white p-4">
-			<span style={{fontFamily : "'Inter', sans-serif", fontVariant : "slashed-zero"}}>Numer0̸n</span>
+		<div>
+		  <div className='absolute font-reggae'><HowToPlay /></div>
+		<div className="text-center text-white p-4">	
+			<span className='font-reggae'>Numer0̸n</span>
 		</div>
-	  </header>
+		</div>
+	);
+}
+
+function Guide(props) {
+	function addClass(event) {
+		console.log('event',event.target);
+	}
+	return(
+		<div className='z-50'>
+			<div className='h-screen w-screen bg-gray-100 bg-opacity-80 px-4'>
+				<button onClick={props.hide} type="button" className="mt-4 mr-4 absolute top-0 right-0 bg-blue-300 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+            	  <span className="sr-only">Close menu</span>
+            	  <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            	    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            	  </svg>
+            	</button>
+			<div className='flex flex-col h-screen justify-center items-center'>
+				<div className='flex flex-col flex-1 justify-center items-center py-5'>
+					<div className='text-5xl'>遊び方</div>
+					<ul className='text-xl py-5'>
+					 <li className='flex flex-col flex-1 justify-center items-center py-3'>3ケタの数字を当てるゲームです</li>
+					 <li className='flex flex-col flex-1 justify-center items-center py-3'>数字の重複はありません</li>
+					 <li className='flex flex-col flex-1 justify-center items-center py-3'>　回答した数字のうち，数字と桁が合っている場合はEAT，<br></br>
+						 　数字は合っているが桁の位置が違う場合はBITEとして表示されます
+					 </li>
+					 <li className='flex flex-col flex-1 justify-center items-center py-3'>　最終的に3EAT，つまり全ての数字と桁の場所が合わさったらクリアです
+					 </li>
+					</ul>
+					</div>
+			</div>
+			</div>
+		</div>
+	);
+}
+
+function HowToPlay() {
+	const [guide, changeGuide] = useState(false);
+	//const { isOpen, onToggle } = useDisclosure();
+	console.log('1',guide);
+	function showGuide(event){
+		event.preventDefault();
+		changeGuide(true);
+	}
+	function hideGuide(event){
+		event.preventDefault();
+		changeGuide(false);
+		console.log('event',event.target);
+	}
+	return(
+		<div>
+			<div className='absolute z-20 text-xs whitespace-nowrap'>
+				<div className='ml-3 mt-3'>
+				<button onClick={showGuide} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded-3xl inline-flex items-center">
+					<span className="material-icons">sports_esports</span>
+					<span>How To Play</span>
+				</button>
+				</div>
+
+			</div>
+			{
+				guide&&<div className='flex flex-col justify-center items-center'>
+					<div className="z-50">
+						<Guide hide={hideGuide} />
+					</div>
+				</div>
+			}
+		</div>
 	);
 }
 
@@ -40,13 +108,13 @@ function History(props){
 					{
 						return(
 						<div key={props.number.indexOf(n)} className='flex rounded border-4 p-4'>
-							<span className='text-3xl'>#{props.number.length - props.number.indexOf(n)}</span>
-							<span className='pt-2 px-5'>number is</span>
-							<span className='text-3xl'>{n[0]}{n[1]}{n[2]} : </span>
-							<span className='text-3xl px-2'>{n[3]}</span>
-							<span className='pt-1 text-xl'>eat</span>
-							<span className='text-3xl px-2'>{n[4]}</span>
-							<span className='pt-1 text-xl'>bite</span>
+							<span className='self-center md:text-3xl text-xl'>#{props.number.length - props.number.indexOf(n)}</span>
+							<span className='self-center pt-2 px-3'>number is</span>
+							<span className='self-center md:text-3xl text-xl'>{n[0]}{n[1]}{n[2]}:</span>
+							<span className='self-center md:text-3xl text-xl px-2'>{n[3]}</span>
+							<span className='self-center pt-1 text-xl'>eat</span>
+							<span className='self-center md:text-3xl text-xl px-2'>{n[4]}</span>
+							<span className='self-center pt-1 text-xl'>bite</span>
 						</div>
 						);
 					})
@@ -65,7 +133,7 @@ function Clear(props){
 		props.check(0);
 	}
 	return(
-		<div className='h-screen w-screen bg-gray-100 bg-opacity-80 fade'>
+		<div className='h-screen w-screen bg-gray-100 bg-opacity-80 fadein'>
 			<div className='flex flex-col h-screen justify-center items-center'>
 				<p className=' text-red-500 text-8xl'>Clear!</p>
 				<div className='p-8'>
@@ -200,8 +268,16 @@ export default function Home() {
     <div className='h-screen flex flex-col'>
       <Head>
         <title>Numeron</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      		rel="stylesheet"></link>
       </Head>
-		<Header />
+	  <header className="bg-gray-800 w-screen">
+	  	<Header />
+		  {
+				submitCount > 0 && submitNumber[0]?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
+				<div className='absolute z-30 ' ><Clear check={check} submit={submit} restart={restart} /></div>
+			}
+	  </header>
       <main className="flex flex-col flex-1 text-center font-reggae ">
 		  <div className='pt-5'>Input Your Answer</div>
 		  <div className='pt-1'><InputArea submit={submit} submitNumber={submitNumber}
@@ -210,14 +286,12 @@ export default function Home() {
 				submitCount > 0 &&
 				<div><CheckNumber submit={submitNumber} answer={AnswerNumber} count={submitCount} /></div>
 			}
-			{
-				submitCount > 0 && submitNumber[0]?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
-				<div className='absolute z-50 ' ><Clear check={check} submit={submit} restart={restart} /></div>
-			}
+
 			{
 				submitCount > 0 &&
 				<div><History number={submitNumber} /></div>
 			}
+			
 	  </main>
 	  <footer className="w-full flex justify-center items-center h-12 border-t">
           <p className="">
