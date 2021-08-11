@@ -1,5 +1,6 @@
 "use strict";
 import { useEffect, useState } from "react";
+import { TwitterShareButton } from 'react-share';
 import Head from "next/head";
 
 function Header() {
@@ -14,9 +15,6 @@ function Header() {
 }
 
 function Guide(props) {
-	function addClass(event) {
-		console.log('event',event.target);
-	}
 	return(
 		<div className='z-50'>
 			<div className='h-screen w-screen bg-gray-100 bg-opacity-80 px-4'>
@@ -29,7 +27,7 @@ function Guide(props) {
 			<div className='flex flex-col h-screen justify-center items-center'>
 				<div className='flex flex-col flex-1 justify-center items-center py-5'>
 					<div className='text-5xl'>遊び方</div>
-					<ul className='text-xl py-5'>
+					<ul className='text-center text-xl py-5'>
 					 <li className='flex flex-col flex-1 justify-center items-center py-3'>3ケタの数字を当てるゲームです</li>
 					 <li className='flex flex-col flex-1 justify-center items-center py-3'>数字の重複はありません</li>
 					 <li className='flex flex-col flex-1 justify-center items-center py-3'>　回答した数字のうち，数字と桁が合っている場合はEAT，<br></br>
@@ -47,8 +45,6 @@ function Guide(props) {
 
 function HowToPlay() {
 	const [guide, changeGuide] = useState(false);
-	//const { isOpen, onToggle } = useDisclosure();
-	console.log('1',guide);
 	function showGuide(event){
 		event.preventDefault();
 		changeGuide(true);
@@ -56,12 +52,11 @@ function HowToPlay() {
 	function hideGuide(event){
 		event.preventDefault();
 		changeGuide(false);
-		console.log('event',event.target);
 	}
 	return(
 		<div>
 			<div className='absolute z-20 text-xs whitespace-nowrap'>
-				<div className='ml-3 mt-3'>
+				<div className='ml-2 mt-3'>
 				<button onClick={showGuide} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded-3xl inline-flex items-center">
 					<span className="material-icons">sports_esports</span>
 					<span>How To Play</span>
@@ -90,12 +85,10 @@ function setnumber(){
 				same = true;
 			}
 		}
-		//console.log(AnswerNumber);
 		if(!same){
 			AnswerNumber.push(n);
 		}
 	}
-	console.log(AnswerNumber);
 	return AnswerNumber;
 }
 
@@ -132,12 +125,24 @@ function Clear(props){
 		props.submit([]);
 		props.check(0);
 	}
+	let score = Math.floor((54725/(props.count + 10) ** 1.5) * 10);
+	let tweetText = "My Score is " + score + ".";
 	return(
-		<div className='h-screen w-screen bg-gray-100 bg-opacity-80 fadein'>
+		<div className='h-screen w-screen bg-gray-100 bg-opacity-80 fadein font-reggae'>
 			<div className='flex flex-col h-screen justify-center items-center'>
 				<p className=' text-red-500 text-8xl'>Clear!</p>
+				<p className='text-center text-5xl'>Your Score is {score}</p>
+				<TwitterShareButton
+    			    title={tweetText}
+    			    url="https://husky21st.github.io/numeron/"
+					className="mt-4 px-4 py-2 twitter-color text-white rounded-sm"
+    			    resetButtonStyle={false}
+    			    aria-label="share"
+    			  >
+    			    Share!
+    			  </TwitterShareButton>
 				<div className='p-8'>
-					<button onClick={handleRestart} className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xl py-3 px-6 rounded-full">Restart</button>
+					<button onClick={handleRestart} className="bg-purple-500 hover:bg-purple-800 text-white font-bold text-xl py-3 px-6 rounded-full">Restart</button>
 				</div>
 			</div>
 		</div>
@@ -145,8 +150,6 @@ function Clear(props){
 }
 
 function CheckNumber(props){
-	//console.log(props.submit);
-	//console.log(props.answer);
 	let eat = 0;
 	let bite = 0;
 	for (let i = 0; i < 3; i++) {
@@ -160,11 +163,10 @@ function CheckNumber(props){
 	}
 	let baff = props.submit;
 	baff[0].push(eat,bite);
-	console.log('eat',eat,'bite',bite);
 	return (
 		<div className='flex flex-col items-center'>
 			<div className='text-xl '>
-				Answer Count : {props.count}
+				Your Answer is
 			</div>
 			<div className='flex rounded gap-4 border-green-500 border-4 p-4'>
 				<div>
@@ -190,7 +192,6 @@ function CheckNumber(props){
 }
 
 function InputArea(props){
-	//console.log(props.submitNumber);
 	const [init, change] = useState(false);
 	useEffect(() => {
 		change(true);
@@ -204,19 +205,15 @@ function InputArea(props){
 		if(number.first.value === number.second.value ||
 			number.first.value === number.third.value ||
 			number.second.value === number.third.value){
-			window.alert("Don't use same number");
+			window.alert("同じ数字を使ってはいけません");
 		}else{
 			let baff = props.submitNumber;
-			baff.unshift([number.first.value, number.second.value, number.third.value])
-			console.log('1',baff);
+			baff.unshift([number.first.value, number.second.value, number.third.value]);
 			props.submit(baff);
 			props.check(props.submitCount + 1);
 		}
-		//console.log(props.Answer);
-		//setNumbers(submitNumber);
 	}
 	const options = [0,1,2,3,4,5,6,7,8,9];
-	console.log(init);
 	return(
 		<div>
 			<form className='flex flex-col items-center align-center' onSubmit={handleSubmit}>
@@ -263,7 +260,7 @@ export default function Home() {
 	const [submitCount, check] = useState(0);
 	const [submitNumber, submit] = useState([]);
 	const [AnswerNumber, restart] = useState(setnumber);
-	console.log('submit', submitNumber);
+	//console.log(AnswerNumber);
   return (
     <div className='h-screen flex flex-col'>
       <Head>
@@ -279,7 +276,7 @@ export default function Home() {
 	  	<Header />
 		  {
 				submitCount > 0 && submitNumber[0]?.every((x,i) => parseInt(x,10) === AnswerNumber[i] ) &&
-				<div className='absolute z-30 ' ><Clear check={check} submit={submit} restart={restart} /></div>
+				<div className='absolute z-30 ' ><Clear check={check} count={submitCount} submit={submit} restart={restart} /></div>
 			}
 	  </header>
       <main className="flex flex-col flex-1 text-center font-reggae ">
