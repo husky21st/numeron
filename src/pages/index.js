@@ -268,6 +268,10 @@ export default function Home() {
     <div className='h-screen flex flex-col'>
       <Head>
         <title>Numeron</title>
+		<link
+            href="https://fonts.googleapis.com/css2?family=Reggae+One&display=swap"
+            rel="stylesheet"
+          ></link>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       		rel="stylesheet"></link>
       </Head>
