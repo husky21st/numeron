@@ -262,7 +262,7 @@ export default function Home() {
 	const [AnswerNumber, restart] = useState(setnumber);
 	//console.log(AnswerNumber);
   return (
-    <div className='h-screen flex flex-col'>
+    <div className='h-screen flex flex-col bg-indigo-50'>
       <Head>
         <title>Numeron</title>
 		<link
